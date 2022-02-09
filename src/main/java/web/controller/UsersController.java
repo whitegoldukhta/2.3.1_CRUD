@@ -24,17 +24,17 @@ public class UsersController {
 
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userService.index());
+    public String getAllUsers(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
         // все юзеры
-        return "users/index";
+        return "users/getAllUsers";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.show(id));
+    public String showUser(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", userService.showUser(id));
         // один человекк по id
-        return "users/show";
+        return "users/showUser";
     }
 
     @GetMapping("/new")
@@ -56,7 +56,7 @@ public class UsersController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.show(id));
+        model.addAttribute("user", userService.showUser(id));
         return "users/edit";
     }
 

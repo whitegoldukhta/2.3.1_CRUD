@@ -1,36 +1,31 @@
 package web.DAO;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    private final EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    public UserDAOImpl(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
 
     // ???????????????????????????????????????????????????????????
     @Override
-    public List<User> index() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        TypedQuery<User> query = em.createQuery("from User", User.class);
+    public List<User> getAllUsers() {
+        TypedQuery<User> query = entityManager.createQuery("from User", User.class);
         return query.getResultList();
     }
 
     @Override
-    public User show(int id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        return em.find(User.class, id);
+    public User showUser(int id) {
+        return entityManager.find(User.class, id);
     }
 
     //    @Override
@@ -43,32 +38,22 @@ public class UserDAOImpl implements UserDAO {
 //        }
 //    }
     @Override
+    @Transactional
     public void save(User user) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
+        entityManager.persist(user);
     }
 
     @Override
+    @Transactional
     public void update(int id, User updatedUser) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        User userToBeUpdated = em.find(User.class, id);
-
-        em.getTransaction().begin();
-
+        User userToBeUpdated = entityManager.find(User.class, id);
         userToBeUpdated.setName(updatedUser.getName());
         userToBeUpdated.setLastName(updatedUser.getLastName());
-
-        em.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.remove(em.find(User.class, id));
-        em.getTransaction().commit();
-
+        entityManager.remove(entityManager.find(User.class, id));
     }
 }

@@ -20,14 +20,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> index() {
-        return userDAO.index();
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
     }
 
     @Override
     @Transactional
-    public User show(int id) {
-        return userDAO.show(id);
+    public User showUser(int id) {
+        return userDAO.showUser(id);
     }
 
     @Override
