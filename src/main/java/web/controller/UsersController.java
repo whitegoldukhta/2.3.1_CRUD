@@ -14,8 +14,8 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UsersController {
 
-    final
-    UserService userService;
+
+    final UserService userService;
 
     @Autowired
     public UsersController(UserService userService) {
@@ -31,10 +31,10 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public String showUser(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.showUser(id));
+    public String getUser(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", userService.getUser(id));
         // один человекк по id
-        return "users/showUser";
+        return "users/getUser";
     }
 
     @GetMapping("/new")
@@ -56,7 +56,7 @@ public class UsersController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.showUser(id));
+        model.addAttribute("user", userService.getUser(id));
         return "users/edit";
     }
 

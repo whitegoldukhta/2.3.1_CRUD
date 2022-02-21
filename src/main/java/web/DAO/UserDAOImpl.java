@@ -16,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
     private EntityManager entityManager;
 
 
-    // ???????????????????????????????????????????????????????????
+
     @Override
     public List<User> getAllUsers() {
         TypedQuery<User> query = entityManager.createQuery("from User", User.class);
@@ -24,19 +24,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User showUser(int id) {
+    public User getUser(int id) {
         return entityManager.find(User.class, id);
     }
 
-    //    @Override
-//    public void save(User user) {
-//        EntityManager em = entityManagerFactory.createEntityManager();
-//        if (user.getId() == null) {
-//            em.persist(user);
-//        } else {
-//            em.merge(user);
-//        }
-//    }
+
     @Override
     @Transactional
     public void save(User user) {
